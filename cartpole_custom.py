@@ -1,8 +1,10 @@
 import gym
 import math 
 import numpy as np
+import random
 from gym import spaces, logger
 from gym.utils import seeding
+
 
 
 # A simple cartpole agent that implements Q learning via a tabular method.
@@ -56,7 +58,7 @@ class CartPoleTabularAgent():
 class CartPoleSarsaLambdaLearner(CartPoleTabularAgent):
     
     def __init__(self, env, cutpoints, epsilon = 0.1):
-        CartPoleAgent.__init__(self, env, cutpoints, epsilon)
+        CartPoleTabularAgent.__init__(self, env, cutpoints, epsilon)
         self.Z = np.zeros((self.n_buckets, self.n_buckets, self.n_buckets, self.n_buckets, 2))
         
     def resetZ(self):
@@ -86,7 +88,7 @@ class CartPoleSarsaLambdaLearner(CartPoleTabularAgent):
 class CartPoleQLearner(CartPoleTabularAgent):   
     
     def __init__(self, env, cutpoints, epsilon = 0.1):
-        CartPoleAgent.__init__(self, env, cutpoints, epsilon)
+        CartPoleTabularAgent.__init__(self, env, cutpoints, epsilon)
         
     def update_Q(self, step, alpha, gamma=1.0, method='Q'):
         state, action, reward, next_state = step
@@ -101,7 +103,7 @@ class CartPoleQLearner(CartPoleTabularAgent):
 class CartPoleMCLearner(CartPoleTabularAgent):   
     
     def __init__(self, env, cutpoints, epsilon = 0.1):
-        CartPoleAgent.__init__(self, env, cutpoints, epsilon)
+        CartPoleTabularAgent.__init__(self, env, cutpoints, epsilon)
         self.C = np.zeros((self.n_buckets, self.n_buckets, self.n_buckets, self.n_buckets, 2))
         
     def update_Q(self, episode, alpha=0.001, gamma=1.0, method='Q'):
